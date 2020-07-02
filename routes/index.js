@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('index', { shape: 'something shape' })
-})
+  res.render('index', { shape: 'something shape' });
+});
 
 module.exports = router;
