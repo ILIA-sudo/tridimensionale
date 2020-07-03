@@ -116,6 +116,7 @@
 // });
 
 const cvs = document.getElementById('canvas');
+// document.body.appendChild(cvs);
 const ctx = cvs.getContext('2d');
 
 const bg = new Image();
@@ -141,25 +142,25 @@ const move = 1;
 
 let octoX = 900;
 let octoY = 462;
-let fallOcto = Math.random() * (12 - 10 + 1);
+let fallOcto = Math.random() * (13 - 1 + 8);
 // const moveOcto = Math.random() * (3 - 1 + 1);
 
 let octo2X = 700;
 let octo2Y = 0;
-let fallOcto2 = Math.random() * (12 - 10 + 1);
+let fallOcto2 = Math.random() * (13 - 1 + 8);
 // const moveOcto2 = Math.random() * (4 - 1 + 1);
 
-let octo3X = 575;
+let octo3X = 550;
 let octo3Y = 462;
-let fallOcto3 = Math.random() * (12 - 10 + 1);
+let fallOcto3 = Math.random() * (13 - 1 + 8);
 
-let octo4X = 450;
+let octo4X = 390;
 let octo4Y = 0;
-let fallOcto4 = Math.random() * (12 - 10 + 1);
+let fallOcto4 = Math.random() * (13 - 1 + 8);
 
-let octo5X = 360;
+let octo5X = 250;
 let octo5Y = 462;
-let fallOcto5 = Math.random() * (12 - 10 + 1);
+let fallOcto5 = Math.random() * (13 - 1 + 8);
 
 function moveUp() {
   planeY -= 35;
@@ -170,6 +171,9 @@ function moveFast() {
 function moveReverse() {
   planeX -= 35;
 }
+function moveSpeedDown() {
+  planeY += 35;
+};
 
 
 document.addEventListener('keydown', (event) => {
@@ -179,13 +183,27 @@ document.addEventListener('keydown', (event) => {
   if (event.code === 'KeyS') {
     moveFast();
   }
-  if (event.code === "KeyA") {
+  if (event.code === 'KeyA') {
     moveReverse();
+  }
+  if (event.code === 'KeyD') {
+    moveSpeedDown();
   }
 });
 
 function game() {
   ctx.drawImage(bg, 0, 0);
+  // ctx.shadowColor = '#F00';
+
+  let points = 0;
+  ctx.shadowOffsetX = 5;
+  ctx.shadowOffsetY = 5;
+  ctx.shadowBlur = 5;
+  ctx.strokeStyle = '#F00';
+  ctx.font = '50px';
+  ctx.strokeText('Incredible journey through octos', 10, 10);
+  ctx.strokeText(`Score: ${points}`, 10, 20);
+
   ctx.drawImage(plane, planeX, planeY);
   planeY += fall;
   planeX += move;
@@ -241,13 +259,49 @@ function game() {
   if (octo5Y > 462) {
     fallOcto5 = -fallOcto5;
   }
+
+  if (planeX === octo5X || planeY === octo5Y) {
+    points += 50;
+    alert('catching!')
+    location.reload();
+    clearInterval(500);
+
+  }
+  if (planeX === octo4X || planeY === octo4Y) {
+    points += 50;
+    alert('catching!')
+    location.reload();
+    clearInterval(500);
+  }
+
+
+  if (planeX === octo3X || planeY === octo3Y || planeX === octo2X || planeY === octo2Y || planeX === octoX || planeY === octoY) {
+    points += 50;
+    alert('catching!')
+    location.reload();
+    clearInterval(500);
+  }
+
   // if (octoY + octopus.width < cvs.top) {
   //   octoY = -octoY;
   // }
 
-  // octoX += dx;
 
+  if (planeX > 1000 || planeY > 562) {
+    clearInterval(game);
+    alert('win');
+    location.reload();
+  }
 
   requestAnimationFrame(game);
 }
+
 octopus5.onload = game;
+
+
+// const createButton = document.getElementById('createbutton');
+
+// createButton.addEventListener('click', (event) => {
+//   event.preventDefault();
+//   console.log('YES');
+// }
